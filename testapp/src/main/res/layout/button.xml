@@ -7,5 +7,4 @@
     android:id="@+id/new_button"
     android:text="@string/button_text"
     android:textColor="@color/black">
-
 </Button>

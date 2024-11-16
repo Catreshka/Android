@@ -2,4 +2,11 @@
 <resources>
     <string name="app_name">Тестовое приложение</string>
     <string name="button_text">Создать кнопку</string>
+    <string name="button_created">кнопка создана</string>
+    <string name="text_created">текстовое поле создано</string>
+    <string name="text">текст</string>
+    <string name="button">кнопка</string>
+    <string name="log">было создано</string>
+    <string name="mistake">ошибка</string>
+    <string name="zerotext">нужно хотя бы 1 тексовое поле</string>
 </resources>
