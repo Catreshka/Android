@@ -16,6 +16,8 @@ import androidx.core.view.allViews
 
 class MainActivity : AppCompatActivity() {
 
+    private val textOnScreen = arrayListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,11 +29,22 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    val textOnScreen = arrayListOf<String>()
-    fun click() {
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getTextById(stringId: Int): String {
+        return resources.getString(stringId)
+    }
+
+    private fun sendLogEvent(message: String) {
+        Log.d("Log",message)
+    }
+
+    private fun click() {
         var countButton = 0
         var countEditText = 0
-        val mainScreen = findViewById(R.id.scroll_main_layout) as LinearLayout
+        val mainScreen = findViewById<LinearLayout>(R.id.scroll_main_layout)
         mainScreen
             .allViews
             .filter { view -> view is EditText }
@@ -39,26 +52,30 @@ class MainActivity : AppCompatActivity() {
             .forEach { editText: EditText ->
                 textOnScreen.add(editText.text.toString())
             }
-        val textEditText = resources.getString(R.string.text)
-        val textEditButton = resources.getString(R.string.button)
-        val textLog = resources.getString(R.string.log)
-        val mistake = resources.getString(R.string.mistake)
-        val zeroText = resources.getString(R.string.zerotext)
+        val textEditText = getTextById(R.string.text)
+        val textEditButton = getTextById(R.string.button)
+        val textLog = getTextById(R.string.log)
+        val mistake = getTextById(R.string.mistake)
+        val zeroText = getTextById(R.string.zerotext)
         if (textOnScreen.isEmpty()) {
-            Toast.makeText(this, zeroText, Toast.LENGTH_SHORT).show()
+            showToast(zeroText)
         } else {
             for (element in textOnScreen) {
-                if (element==textEditText) {
-                    createEditView()
-                    countEditText += 1
-                } else if (element==textEditButton) {
-                    createButton()
-                    countButton +=1
-                } else {
-                    Toast.makeText(this, mistake, Toast.LENGTH_SHORT).show()
+                when (element) {
+                    textEditText -> {
+                        createEditView()
+                        countEditText += 1
+                        break
+                    }
+                    textEditButton -> {
+                        createButton()
+                        countButton +=1
+                        break
+                    }
+                    else -> showToast(mistake)
                 }
             }
-            Log.d("Log","$countEditText $textEditText $countButton $textEditButton $textLog")
+            sendLogEvent("$countEditText $textEditText $countButton $textEditButton $textLog")
         }
         mainScreen
             .allViews
@@ -70,10 +87,10 @@ class MainActivity : AppCompatActivity() {
         textOnScreen.clear()
     }
 
-    fun createButton() {
-        val mainScreen = findViewById(R.id.scroll_main_layout) as LinearLayout
-        val buttonCreated = resources.getString(R.string.button_created)
-        Log.d("Log",buttonCreated)
+    private fun createButton() {
+        val mainScreen = findViewById<LinearLayout>(R.id.scroll_main_layout)
+        val buttonCreated = getTextById(R.string.button_created)
+        sendLogEvent(buttonCreated)
         val v: View = LayoutInflater.from(this).inflate(
             /* resource = */ R.layout.button,
             /* root = */ mainScreen,
@@ -88,26 +105,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun createEditView() {
-        val mainScreen = findViewById(R.id.scroll_main_layout) as LinearLayout
-        val textCreated = resources.getString(R.string.text_created)
-        Log.d("Log",textCreated)
+    private fun createEditView() {
+        val mainScreen = findViewById<LinearLayout>(R.id.scroll_main_layout)
+        val textCreated = getTextById(R.string.text_created)
+        sendLogEvent(textCreated)
         val addText = EditText(this)
-        addText.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+        addText.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT)
         mainScreen.addView(addText)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.getItemId()
-        val mainScreen = findViewById(R.id.scroll_main_layout) as LinearLayout
-        if (id == R.id.action_add_button) {
-            createButton()
-        }
-        if (id == R.id.action_add_text) {
-            createEditView()
-        }
-        if (id == R.id.action_clear) {
-            mainScreen.removeAllViews()
+        val id = item.itemId
+        val mainScreen = findViewById<LinearLayout>(R.id.scroll_main_layout)
+        when (id) {
+            R.id.action_add_button -> createButton()
+            R.id.action_add_text -> createEditView()
+            R.id.action_clear -> mainScreen.removeAllViews()
         }
         return super.onOptionsItemSelected(item)
     }

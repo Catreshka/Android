@@ -14,5 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Andoid"
-include(":app")
 include(":testapp")

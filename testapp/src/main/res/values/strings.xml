@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">Тестовое приложение</string>
     <string name="button_text">Создать кнопку</string>
+    <string name="create_text">Создать поле</string>
+    <string name="clear">Очистить</string>
     <string name="button_created">кнопка создана</string>
     <string name="text_created">текстовое поле создано</string>
     <string name="text">текст</string>
