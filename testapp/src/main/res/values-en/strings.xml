@@ -2,4 +2,13 @@
 <resources>
     <string name="app_name">testApp</string>
     <string name="button_text">Create elements</string>
+    <string name="create_text">Create text</string>
+    <string name="clear">Clear</string>
+    <string name="button_created">button created</string>
+    <string name="text_created">text created</string>
+    <string name="text">text</string>
+    <string name="button">button</string>
+    <string name="log">were created</string>
+    <string name="mistake">mistake</string>
+    <string name="zerotext">need 1 text</string>
 </resources>
